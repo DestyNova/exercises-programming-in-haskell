@@ -1,0 +1,63 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           programming-in-haskell
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/programming-in-haskell#readme>
+homepage:       https://github.com/githubuser/programming-in-haskell#readme
+bug-reports:    https://github.com/githubuser/programming-in-haskell/issues
+author:         Oisín Mac Fhearaí
+maintainer:     denpashogai@gmail.com
+copyright:      2021 Oisín Mac Fhearaí
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/programming-in-haskell
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_programming_in_haskell
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable programming-in-haskell-exe
+  main-is: Main.hs
+  other-modules:
+      Ch7
+      Ch8
+      Paths_programming_in_haskell
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , programming-in-haskell
+  default-language: Haskell2010
+
+test-suite programming-in-haskell-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Ch8Spec
+      Paths_programming_in_haskell
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , hspec
+    , programming-in-haskell
+  default-language: Haskell2010
