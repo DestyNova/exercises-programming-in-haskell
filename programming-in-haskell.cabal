@@ -38,6 +38,7 @@ executable programming-in-haskell-exe
   other-modules:
       Ch7
       Ch8
+      Ch9
       Paths_programming_in_haskell
   hs-source-dirs:
       app
@@ -52,6 +53,7 @@ test-suite programming-in-haskell-test
   main-is: Spec.hs
   other-modules:
       Ch8Spec
+      Ch9Spec
       Paths_programming_in_haskell
   hs-source-dirs:
       test

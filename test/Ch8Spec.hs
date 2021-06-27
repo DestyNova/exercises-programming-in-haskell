@@ -1,26 +1,9 @@
 module Ch8Spec (spec) where
 
+import Ch8
 import Test.Hspec
 
-data Tree a = Leaf a | Node (Tree a) (Tree a) deriving (Show, Eq)
-
--- ex3
-balanced (Leaf _) = True
-balanced (Node l r) = abs (lCount - rCount) <= 1 && balanced l && balanced r
-  where lCount = leafCount l
-        rCount = leafCount r
-
-leafCount (Leaf _) = 1
-leafCount (Node l r) = leafCount l + leafCount r
-
--- ex4
-balance :: [a] -> Tree a
-balance [x] = Leaf x
-balance xs = Node (balance l) (balance r)
-  where l = take n xs
-        r = drop n xs
-        n = length xs `div` 2
-
+-- tests
 spec :: Spec
 spec = do
   describe "ex3" $ do
@@ -36,3 +19,11 @@ spec = do
     it "balances a 5-elem list" $ balance "hello" `shouldBe`
       Node (Node (Leaf 'h') (Leaf 'e')) (Node (Leaf 'l') (Node (Leaf 'l') (Leaf 'o')))
     it "should produce balanced trees" $ balanced (balance "hello dude") `shouldBe` True
+  describe "ex5" $
+    it "foldes" $ let expr = Add (Val 3) (Add (Val 0) (Val 2))
+                      in (folde (*2) (+) expr `shouldBe` 10)
+  describe "ex6" $ do
+    it "evals" $ let expr = Add (Val 3) (Add (Val 0) (Val 2))
+                     in (eval expr `shouldBe` 5)
+    it "sizes" $ let expr = Add (Val 3) (Add (Val 0) (Val 2))
+                     in (size expr `shouldBe` 3)
