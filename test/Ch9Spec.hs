@@ -1,11 +1,17 @@
 module Ch9Spec (spec) where
 
+import Ch9
 import Test.Hspec
-
--- ex1
 
 -- tests
 spec :: Spec
-spec = do
-  describe "ex1" $ do
-    it "does nothing" $ 2+2 `shouldBe` 4
+spec =
+  describe "chapter 9.3" $ do
+    it "validates Add" $ valid Add 1 2 `shouldBe` True
+    it "rejects bad Sub" $ valid Sub 1 2 `shouldBe` False
+    it "applies div" $ apply Div 9 3 `shouldBe` 3
+    it "shows an expr" $ show (App Div (Val 6) (Val 2)) `shouldBe` "6/2"
+    it "shows a big expr" $ show (App Div (Val 6) (App Add (Val 1) (Val 2))) `shouldBe` "6/(1+2)"
+    it "extracts Vals" $ values (App Div (Val 6) (App Add (Val 1) (Val 2))) `shouldBe` [6,1,2]
+    it "evals" $ eval (App Div (Val 6) (App Add (Val 1) (Val 2))) `shouldBe` [2]
+    it "doesn't eval invalid" $ eval (App Div (Val 6) (App Add (Val 1) (Val 4))) `shouldBe` []
