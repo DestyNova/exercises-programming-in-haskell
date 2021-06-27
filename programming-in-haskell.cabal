@@ -6,13 +6,13 @@ cabal-version: 1.12
 
 name:           programming-in-haskell
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/programming-in-haskell#readme>
+description:    Please see the README on GitHub at <https://github.com/DestyNova/exercises-programming-in-haskell#readme>
 homepage:       https://github.com/githubuser/programming-in-haskell#readme
 bug-reports:    https://github.com/githubuser/programming-in-haskell/issues
 author:         Oisín Mac Fhearaí
 maintainer:     denpashogai@gmail.com
 copyright:      2021 Oisín Mac Fhearaí
-license:        BSD3
+license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
