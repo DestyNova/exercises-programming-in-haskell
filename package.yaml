@@ -1,7 +1,7 @@
 name:                programming-in-haskell
 version:             0.1.0.0
 github:              "githubuser/programming-in-haskell"
-license:             BSD3
+license:             MIT
 author:              "Oisín Mac Fhearaí"
 maintainer:          "denpashogai@gmail.com"
 copyright:           "2021 Oisín Mac Fhearaí"
