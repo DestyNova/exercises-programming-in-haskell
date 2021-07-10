@@ -78,3 +78,7 @@ solutions :: [Int] -> Int -> [Expr]
 solutions ns n = [e | ns' <- choices ns,
                       e <- exprs ns',
                       eval e == [n]]
+
+run = do
+  putStrLn "Thinking..."
+  print $ head $ solutions [100,25,50,75,5,9] 867

@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import Ch9
 
 main :: IO ()
-main = someFunc
+main = run
