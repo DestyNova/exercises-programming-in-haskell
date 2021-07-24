@@ -79,6 +79,22 @@ solutions ns n = [e | ns' <- choices ns,
                       e <- exprs ns',
                       eval e == [n]]
 
+type Result = (Expr,Int)
+
+results :: [Int] -> [Result]
+results [] = []
+results [n] = [(Val n,n) | n > 0]
+results ns = [res | (ls,rs) <- split ns,
+                    lx <- results ls,
+                    ry <- results rs,
+                    res <- combine' lx ry]
+
+combine' :: Result -> Result -> [Result]
+combine' (l,x) (r,y) = [(App o l r, apply o x y) | o <- ops, valid o x y]
+
+solutions' :: [Int] -> Int -> [Expr]
+solutions' ns n = [e | ns' <- choices ns, (e,m) <- results ns', m == n]
+
 run = do
   putStrLn "Thinking..."
-  print $ head $ solutions [100,25,50,75,5,9] 867
+  print $ head $ solutions' [100,25,50,75,5,9] 867
