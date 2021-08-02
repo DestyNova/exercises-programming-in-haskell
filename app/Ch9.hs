@@ -9,11 +9,11 @@ instance Show Op where
   show Mul = "*"
   show Div = "/"
 
-valid :: Op -> Int -> Int -> Bool
-valid Add _ _ = True
-valid Sub x y = x > y
-valid Mul _ _ = True
-valid Div x y = x `mod` y == 0
+-- valid :: Op -> Int -> Int -> Bool
+-- valid Add _ _ = True
+-- valid Sub x y = x > y
+-- valid Mul _ _ = True
+-- valid Div x y = x `mod` y == 0
 
 apply :: Op -> Int -> Int -> Int
 apply Add = (+)
@@ -50,7 +50,9 @@ perms :: [a] -> [[a]]
 perms = foldr (concatMap . interleave) [[]]
 
 choices :: [a] -> [[a]]
-choices = concatMap perms . subs
+choices xs = [gs | ys <- subs xs, gs <- perms ys]
+-- choices xs = concat [perms ys | ys <- subs xs]
+-- choices = concatMap perms . subs
 
 solution :: Expr -> [Int] -> Int -> Bool
 solution e ns n = elem (values e) (choices ns) && eval e == [n]
@@ -95,6 +97,26 @@ combine' (l,x) (r,y) = [(App o l r, apply o x y) | o <- ops, valid o x y]
 solutions' :: [Int] -> Int -> [Expr]
 solutions' ns n = [e | ns' <- choices ns, (e,m) <- results ns', m == n]
 
+-- can't see a neat way to slot this in interchangeably with the original definition
+-- of `valid`, other than via a factory function (i.e. closure)
+valid :: Op -> Int -> Int -> Bool
+valid Add x y = x <= y
+valid Mul x y = x > 1 && y > 1 && x <= y
+valid Sub x y = x > y
+valid Div x y = y > 1 && x `mod` y == 0
+
 run = do
   putStrLn "Thinking..."
-  print $ head $ solutions' [100,25,50,75,5,9] 867
+  print $ head $ solutions' [1,3,7,10,25,50] 765
+
+-- Section 11 exercises
+isChoice :: Eq a => [a] -> [a] -> Bool
+isChoice [] _ = True
+isChoice (x:xs) ys = case dropFirst x ys of
+                       Nothing -> False
+                       Just ys' -> isChoice xs ys'
+
+dropFirst x [] = Nothing
+dropFirst x (y:ys)
+  | x == y = Just ys
+  | otherwise = dropFirst x ys
