@@ -1,6 +1,6 @@
 module Main where
 
-import Ch9
+import Ch10
 
 main :: IO ()
 main = run
