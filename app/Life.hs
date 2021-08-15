@@ -1,18 +1,13 @@
 module Life where
 
-cls :: IO ()
-cls = putStr "\ESC[2J"
+import Ch10 (cls, goto, Pos)
 
-type Pos = (Int,Int)
 type Board = [Pos]
 
 writeat :: Pos -> String -> IO ()
 writeat p s = do
   goto p
   putStr s
-
-goto :: Pos -> IO ()
-goto (x,y) = putStr ("\ESC[" ++ show y ++ ";" ++ show x ++ "H")
 
 width :: Int
 width = 10

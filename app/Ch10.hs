@@ -30,3 +30,11 @@ readLine =
                _ -> do
                  putChar c
                  readLine' (s ++ [c])
+
+type Pos = (Int,Int)
+
+cls :: IO ()
+cls = putStr "\ESC[2J"
+
+goto :: Pos -> IO ()
+goto (x,y) = putStr ("\ESC[" ++ show y ++ ";" ++ show x ++ "H")

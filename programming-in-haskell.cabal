@@ -37,12 +37,14 @@ executable programming-in-haskell-exe
   main-is: Main.hs
   other-modules:
       Ch10
+      Ch11
       Ch7
       Ch8
       Ch9
       Hangman
       Life
       Nim
+      TicTacToe
       Paths_programming_in_haskell
   hs-source-dirs:
       app
