@@ -7,8 +7,12 @@ import Ch10 (cls, goto)
 
 
 type Grid = [[Player]]
-data Player = O | B | X deriving (Eq, Ord, Show)
-data Tree a = Node a [Tree a] deriving Show
+data Player = X | B | O deriving (Eq, Ord, Show)
+data Tree a = Node a [Tree a] deriving (Show)
+
+-- if Tree implemented Foldable, we could use length...
+treeLength (Node _ []) = 1
+treeLength (Node _ ts) = sum $ map treeLength ts
 
 size :: Int
 size = 3
@@ -106,3 +110,34 @@ run' g p | wins O g = putStrLn "Player O wins!\n"
 
 prompt :: Player -> String
 prompt p = "Player " ++ show p ++ ", enter your move: "
+
+gametree :: Grid -> Player -> Tree Grid
+gametree g p = Node g [gametree g' (next p) | g' <- moves g p]
+
+depth :: Int
+depth = 9
+
+moves :: Grid -> Player -> [Grid]
+moves g p | won g = []
+          | full g = []
+          | otherwise = concat [move g i p | i <- [0..((size^2)-1)]]
+
+prune :: Int -> Tree a -> Tree a
+prune 0 (Node x _) = Node x []
+prune d (Node x ts) = Node x $ map (prune (d-1)) ts
+
+minimax :: Tree Grid -> Tree (Grid,Player)
+minimax (Node g [])
+  | wins O g = Node (g,O) []
+  | wins X g = Node (g,X) []
+  | otherwise = Node (g,B) []
+minimax (Node g ts)
+  | turn g == O = Node (g, maximum ps) ts'
+  | turn g == X = Node (g, minimum ps) ts'
+    where ts' = map minimax ts
+          ps = [p | Node (_,p) _ <- ts']
+
+bestmove :: Grid -> Player -> Grid
+bestmove g p = head [g' | Node (g',p') _ <- ts, p' == best]
+  where tree = prune depth (gametree g p)
+        Node (_,best) ts = minimax tree
