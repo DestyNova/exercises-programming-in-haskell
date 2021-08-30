@@ -141,3 +141,31 @@ bestmove :: Grid -> Player -> Grid
 bestmove g p = head [g' | Node (g',p') _ <- ts, p' == best]
   where tree = prune depth (gametree g p)
         Node (_,best) ts = minimax tree
+
+main :: IO ()
+main = do
+  hSetBuffering stdout NoBuffering
+  play empty X
+
+play :: Grid -> Player -> IO ()
+play g p = do
+  cls
+  goto (1,1)
+  putGrid g
+  play' g p
+
+play' :: Grid -> Player -> IO ()
+play' g p
+  | wins X g = putStrLn "Player X wins!\n"
+  | wins O g = putStrLn "Player O wins!\n"
+  | full g = putStrLn "It's a draw!\n"
+  | p == X = do
+    i <- getNat (prompt p)
+    case move g i p of
+         [] -> do
+           putStrLn "ERROR: Invalid move."
+           play' g p
+         [g'] -> play g' (next p)
+  | p == O = do
+    putStr "Player O is thinking... "
+    (play $! bestmove g p) (next p)
